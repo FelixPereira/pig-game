@@ -20,6 +20,7 @@ score1El.textContent = 0;
 diceEl.classList.add('hidden');
 let activePlayer = 0;
 let currentScore = 0;
+const totalScore = [0, 0]
 
 // Rolling dice functionality
 btnRoll.addEventListener('click', function() {
@@ -43,4 +44,13 @@ btnRoll.addEventListener('click', function() {
       player0El.classList.toggle('player--active');
       player1El.classList.toggle('player--active');
   }
+});
+
+btnHold.addEventListener('click', function() {
+  totalScore[activePlayer] += currentScore;
+  document.getElementById(`score--${activePlayer}`).textContent = totalScore[activePlayer];
+  if(totalScore[activePlayer] >= 50) alert(`Player ${activePlayer === 0 ? ' 1 ' : ' 2 ' } won `);
+  
+  currentScore = 0;
+  document.getElementById(`current--${activePlayer}`).textContent = currentScore;
 });
