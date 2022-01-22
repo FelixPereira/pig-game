@@ -23,32 +23,38 @@ let currentScore = 0;
 const totalScore = [0, 0];
 let playing = true;
 
-// Rolling dice functionality
+
+function switchPlayer() {
+  currentScore = 0;
+  document.getElementById(`current--${activePlayer}`).textContent = currentScore;
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  player0El.classList.toggle('player--active');
+  player1El.classList.toggle('player--active');
+}
+
+// Rolling dice
 btnRoll.addEventListener('click', function() {
-  // 1. Generating a random dice roll
+  // Generating a random dice roll
   if(playing) {
     const dice = Math.trunc(Math.random() * 6) + 1;
     
-    // 2. Display dice
+    // Display dice
     diceEl.src = `assets/images/dice-${dice}.png`;
     diceEl.classList.remove('hidden');
     
-    // 3. Check for roll 1: if is true, switch to next player
+    // Check for roll 1
     if(dice !== 1) {
       // Add roll to current score
       currentScore += dice;
       document.getElementById(`current--${activePlayer}`).textContent = currentScore;
     } else {
         // Switch player
-        currentScore = 0;
-        document.getElementById(`current--${activePlayer}`).textContent = currentScore;
-        activePlayer = activePlayer === 0 ? 1 : 0;
-        player0El.classList.toggle('player--active');
-        player1El.classList.toggle('player--active');
+        switchPlayer();
     }
   }
 });
 
+// Holding current score
 btnHold.addEventListener('click', function() {
   if(playing) {
     totalScore[activePlayer] += currentScore;
@@ -60,15 +66,13 @@ btnHold.addEventListener('click', function() {
       document.querySelector(`.player--${activePlayer}`).classList.remove('player--active');
       
     } else {
-      currentScore = 0;
-      document.getElementById(`current--${activePlayer}`).textContent = currentScore;
-      activePlayer = activePlayer === 0 ? 1 : 0;
-      player0El.classList.toggle('player--active');
-      player1El.classList.toggle('player--active');
+        // Switch player
+        switchPlayer();
     }
   }
 });
 
+// Reseting the game
 btnNew.addEventListener('click', function() {
   playing = true;
   currentScore = 0;
